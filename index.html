@@ -1,22 +1,14 @@
 <!DOCTYPE html>
-<!-- 网站主文档类型声明 -->
 <html lang="zh-CN">
-<!-- 网站根元素,设置语言为简体中文 -->
 <head>
-    <!-- 头部区域开始 -->
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- 响应式视口设置 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 网站标题 -->
     <title>Inkstone | Blog</title>
-    <!-- 引入外部CSS样式表 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- 引入emoji.css -->
     <link rel="stylesheet" href="CSS/emoji.css">
     <style>
-        /* 全局样式 */
         :root {
-            /* 定义CSS变量 */
             --geek-purple-dark: #2a0a4a;
             --geek-purple-medium: #7b2cbf;
             --geek-purple-light: #9d4edd;
@@ -25,13 +17,10 @@
             --theme-black: #121212;
             --theme-gray: #2d2d3a;
         }
-
-        /* 主体样式 */
         body {          
             background: linear-gradient(135deg, #1a0635 0%, #2a0a4a 100%);
             color: var(--theme-white);
             overflow-x: hidden;
-           /*重置页面的外边距和内边距,确保页面元素紧贴浏览器边缘,避免出现不必要的空白 */
             margin: 0;
             padding: 0;
         }
@@ -540,21 +529,13 @@
             position: relative;
         }
         .content-preview {
-            /* 使内容区域在可用空间内自动扩展 */
             flex-grow: 1;
-            /* 设置上下内边距为15px，左右内边距为0 */
             padding: 15px 0;
-            /* 设置底部外边距为10px */
             margin-bottom: 10px;
-            /* 设置行高为1.7倍 */
             line-height: 1.7;
-            /* 增大预览区域高度，最小高度为210px */
             min-height: 210px;
-            /* 使用flex布局 */
             display: flex;
-            /* 设置flex子项垂直排列 */
             flex-direction: column;
-            /* 使flex子项在垂直方向上均匀分布 */
             justify-content: space-between;
         }
         .article-meta {
@@ -1163,7 +1144,6 @@
             font-size: 1rem;
         }
         .form-group textarea {
-            /* 这里保持 textarea 的宽度不变,可根据需求调整 */
             width: 100%; 
             min-height: 200px;
             resize: vertical;
@@ -1319,8 +1299,8 @@
     </section>
 
     <!-- 概念交互栏目 -->
-    <div id="three-container"></div><!-- 默认左上角显示自定义内容 -->
-    <div id="instructions"></div><!-- 默认上方显示自定义内容 -->
+    <div id="three-container"></div>
+    <div id="instructions"></div>
 
     <!-- 每日正念栏目 -->
     <section id="mindfulness" class="category-section" style="margin-top: -10px;">
@@ -1902,6 +1882,7 @@
         </div>
     </div>
 </section>
+    
     <!-- emoji栏目 -->
     <div style="display: flex; justify-content: center; gap: 20px;">
         <div class="emoji emoji--like">
@@ -2142,22 +2123,17 @@
             }
             // 3D悬浮效果
             document.querySelectorAll('.mindfulness-card').forEach(card => {
-                // 确保卡片启用 3D 变换
                 card.style.transformStyle = 'preserve-3d';
                 card.style.willChange = 'transform';
-                // 增加粒子数量
                 const particleCount = 13;
                 for (let i = 0; i < particleCount; i++) {
                     const particle = document.createElement('div');
                     particle.classList.add('particle');
-                    // 随机设置粒子初始位置
                     particle.style.left = `${Math.random() * 100}%`;
                     particle.style.top = `${Math.random() * 100}%`;
-                    // 随机设置粒子大小
                     const size = Math.random() * 10 + 5;
                     particle.style.width = `${size}px`;
                     particle.style.height = `${size}px`;
-                    // 随机设置粒子动画延迟
                     particle.style.animationDelay = `${Math.random() * 6}s`;
                     card.querySelector('.particles').appendChild(particle);
                 }
@@ -2165,35 +2141,29 @@
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    // 设置鼠标位置变量
                     card.style.setProperty('--mouse-x', `${x}px`);
                     card.style.setProperty('--mouse-y', `${y}px`);                  
-                    // 计算3D倾斜角度
                     const centerX = card.offsetWidth / 2;
                     const centerY = card.offsetHeight / 2;
                     const rotateX = (centerY - y) / 8;
                     const rotateY = (x - centerX) / 8;                 
-                    // 直接设置 transform 属性,确保 3D 变换生效
                     card.style.transform = `
                         translateY(-30px) 
                         scale(1.1) 
                         rotateX(${rotateX}deg) 
                         rotateY(${rotateY}deg)
                     `;                   
-                    // 动态光斑跟随
                     const lightSpot = card.querySelector('.light-spot');
                     lightSpot.style.transform = `translate(
                         calc(${x}px - 100px),
                         calc(${y}px - 100px)
                     )`;                 
-                    // 粒子效果方向
                     const particles = card.querySelectorAll('.particle');
                     particles.forEach(p => {
                         p.style.transform = `translateX(${(x - centerX) / 8}px)`;
                     });
                 });               
                 card.addEventListener('mouseleave', () => {
-                    // 恢复初始状态
                     card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
                 });
             });
@@ -2306,13 +2276,11 @@
             const deltaTime = timestamp - lastScrollTimeTimeline;
             lastScrollTimeTimeline = timestamp;
             scrollVelocityTimeline *= 0.92 - Math.min(deltaTime / 1000, 0.1);
-            // 计算最大滚动范围
             const timelineWidth = timeline.scrollWidth;
             const containerWidth = timelineContainer.offsetWidth;
             const maxScroll = Math.max(0, timelineWidth - containerWidth);
             if (Math.abs(scrollVelocityTimeline) > 0.1) {
                 currentScrollTimeline += scrollVelocityTimeline;              
-                // 限制滚动范围 - 不能超过内容宽度
                 currentScrollTimeline = Math.max(Math.min(currentScrollTimeline, 0), -maxScroll);
                 timeline.style.transform = `translateX(${currentScrollTimeline}px)`;
                 requestAnimationFrame(smoothScrollTimeline);
@@ -2320,7 +2288,6 @@
                 isScrollingTimeline = false;
             }
         }
-        // 初始居中显示时间轴
         window.addEventListener('load', () => {
             const timelineWidth = timeline.scrollWidth;
             const containerWidth = timelineContainer.offsetWidth;
@@ -2372,8 +2339,6 @@
             document.getElementById('article-content').value = '';
             document.getElementById('article-excerpt').value = '';
         });
-
-
     </script>
 </body>
 </html>
