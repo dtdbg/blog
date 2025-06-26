@@ -1,0 +1,2379 @@
+<!DOCTYPE html>
+<!-- 网站主文档类型声明 -->
+<html lang="zh-CN">
+<!-- 网站根元素,设置语言为简体中文 -->
+<head>
+    <!-- 头部区域开始 -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- 响应式视口设置 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 网站标题 -->
+    <title>Inkstone | Blog</title>
+    <!-- 引入外部CSS样式表 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- 引入emoji.css -->
+    <link rel="stylesheet" href="CSS/emoji.css">
+    <style>
+        /* 全局样式 */
+        :root {
+            /* 定义CSS变量 */
+            --geek-purple-dark: #2a0a4a;
+            --geek-purple-medium: #7b2cbf;
+            --geek-purple-light: #9d4edd;
+            --geek-purple-neon: #e0aaff;
+            --theme-white: #ffffff;
+            --theme-black: #121212;
+            --theme-gray: #2d2d3a;
+        }
+
+        /* 主体样式 */
+        body {          
+            background: linear-gradient(135deg, #1a0635 0%, #2a0a4a 100%);
+            color: var(--theme-white);
+            overflow-x: hidden;
+           /*重置页面的外边距和内边距,确保页面元素紧贴浏览器边缘,避免出现不必要的空白 */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 0.4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(42, 10, 74, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--geek-purple-medium);
+        }
+        .navbar-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--theme-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .navbar-logo:hover {
+            color: var(--geek-purple-neon);
+            text-shadow: 0 0 10px var(--geek-purple-neon);
+        }
+        .navbar-menu {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-item {
+            position: relative;
+        }
+        .nav-link {
+            color: var(--theme-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }       
+        .nav-link:hover {
+            color: var(--geek-purple-neon);
+            background: rgba(123, 44, 191, 0.2);
+        }
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: -50px;
+            width: 180px;
+            background: var(--geek-purple-dark);
+            border-radius: 10px;
+            padding: 15px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid var(--geek-purple-medium);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }  
+        .nav-item:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(10px);
+        }
+        .dropdown-item {
+            display: block;
+            padding: 10px 20px;
+            color: var(--theme-white);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .dropdown-item:hover {
+            background: var(--geek-purple-medium);
+            color: var(--theme-white);
+            padding-left: 25px;
+        }
+        .dropdown-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        section {
+            padding: 60px 0%;
+            position: relative;
+            margin-top: 80px; 
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 顶部欢迎区 */
+        #welcome {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--geek-purple-dark) 0%, #1a0635 100%);
+            overflow: hidden;
+            position: relative;
+            margin-top: 0; 
+        }
+        
+        .welcome-content {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        .welcome-text {
+            font-size: 5rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            background: linear-gradient(to right, var(--theme-white), var(--geek-purple-neon));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.1;
+        }
+        .welcome-icon {
+            margin: 2rem 0;
+            position: relative;
+        }
+        .wave-icon {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            display: inline-block;
+            animation: waveAnimation 3s infinite ease-in-out;
+        }
+        .wave-icon::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 C15,30 35,70 50,50 S85,30 100,50" fill="none" stroke="%23e0aaff" stroke-width="3" stroke-linecap="round"/></svg>') center/contain no-repeat;
+        }
+        .wave-icon:nth-child(2)::before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 C20,20 30,80 50,50 S80,20 100,50" fill="none" stroke="%23e0aaff" stroke-width="3" stroke-linecap="round"/></svg>') center/contain no-repeat;
+        }
+        .wave-icon:nth-child(3)::before {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M0,50 C10,10 40,90 50,50 S90,10 100,50" fill="none" stroke="%23e0aaff" stroke-width="3" stroke-linecap="round"/></svg>') center/contain no-repeat;
+        }
+        .welcome-subtext {
+            font-size: 1.5rem;
+            color: var(--geek-purple-neon);
+            letter-spacing: 2px;
+            margin-top: 1.5rem;
+        }
+        /* 背景效果 */
+        .background-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .effect-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--geek-purple-medium) 0%, transparent 70%);
+            filter: blur(40px);
+        }
+    
+        /* 每日正念样式 */
+        .mindfulness-carousel {
+            position: relative;
+            width: 100%;
+            padding: 60px 0;
+            overflow: hidden;
+            cursor: grab;
+            perspective: 2000px;
+        }
+        .mindfulness-carousel:active {
+            cursor: grabbing;
+        }
+        .mindfulness-track {
+            display: flex;
+            gap: 50px;
+            padding: 40px calc(50% - 175px);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform;
+        }
+        .mindfulness-card {
+            flex: 0 0 350px;
+            height: 220px;
+            background: linear-gradient(145deg, rgba(45, 45, 58, 0.95) 0%, rgba(30, 30, 40, 0.95) 100%);
+            border-radius: 30px;
+            padding: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--card-color, var(--geek-purple-neon));
+            border: 2px solid var(--card-border, var(--geek-purple-medium));
+            box-shadow: 0 20px 40px rgba(123, 44, 191, 0.3);
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.4);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            z-index: 1;
+            will-change: transform, box-shadow;
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+        }
+        /* 悬浮样式 */
+        .mindfulness-card:hover {
+            transform: 
+                translateY(-30px) 
+                scale(1.1) 
+                rotateX(calc(var(--rotate-x) * 15deg)) 
+                rotateY(calc(var(--rotate-y) * 15deg));
+            box-shadow: 
+                0 40px 80px var(--card-glow, rgba(224, 170, 255, 0.8)),
+                0 0 0 2px rgba(255,255,255,0.15);
+            border-color: var(--theme-white);
+            z-index: 100;
+            filter: drop-shadow(0 15px 30px var(--card-glow, rgba(224, 170, 255, 0.6)));
+        }
+        /* 粒子光晕背景 */
+        .mindfulness-card .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .mindfulness-card:hover .particles {
+            opacity: 1;
+        }
+        .particle {
+            position: absolute;
+            background: var(--card-glow);
+            border-radius: 50%;
+            filter: blur(5px);
+            animation: float 6s infinite linear;
+        }
+        /* 多层光晕效果 */
+        .mindfulness-card::before,
+        .mindfulness-card::after {
+            content: '';
+            position: absolute;
+            border-radius: 30px;
+            pointer-events: none;
+            transition: all 0.8s ease;
+            z-index: -1;
+        }
+        /* 背景光晕层 */
+        .mindfulness-card::before {
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: radial-gradient(
+                circle at var(--mouse-x) var(--mouse-y),
+                var(--card-glow, rgba(224, 170, 255, 0.5)) 0%,
+                transparent 80%
+            );
+            opacity: 0;
+            filter: blur(25px);
+        }
+        /* 边缘光晕层 */
+        .mindfulness-card::after {
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            box-shadow: 
+                inset 0 0 50px rgba(224, 170, 255, 0.2),
+                inset 0 0 20px rgba(255,255,255,0.1);
+            opacity: 0;
+        }
+        .mindfulness-card:hover::before {
+            opacity: 0.9;
+        }
+        .mindfulness-card:hover::after {
+            opacity: 1;
+        }
+        /* 动态光斑 */
+        .mindfulness-card .light-spot {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(
+                circle,
+                var(--card-glow, rgba(224, 170, 255, 0.8)) 0%,
+                transparent 70%
+            );
+            border-radius: 50%;
+            filter: blur(30px);
+            opacity: 0;
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            z-index: -1;
+        }
+        .mindfulness-card:hover .light-spot {
+            opacity: 0.7;
+            transform: translate(
+                calc(var(--mouse-x) - 100px),
+                calc(var(--mouse-y) - 100px)
+            );
+        }
+        /* 文字发光 */
+        .mindfulness-card p {
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease;
+            text-shadow: 0 0 10px transparent;
+        }
+        .mindfulness-card:hover p {
+            transform: scale(1.15);
+            text-shadow: 0 0 20px var(--card-glow);
+        }
+        /* 颜色变体 */
+        .mindfulness-card.color-1 {
+            --card-color: #e0aaff;
+            --card-border: #9d4edd;
+            --card-glow: rgba(224, 170, 255, 0.8);
+        }
+        .mindfulness-card.color-2 {
+            --card-color: #9d4edd;
+            --card-border: #7b2cbf;
+            --card-glow: rgba(157, 78, 221, 0.8);
+        }
+        .mindfulness-card.color-3 {
+            --card-color: #7b2cbf;
+            --card-border: #5a189a;
+            --card-glow: rgba(123, 44, 191, 0.8);
+        }
+        .mindfulness-card.color-4 {
+            --card-color: #c77dff;
+            --card-border: #9d4edd;
+            --card-glow: rgba(199, 125, 255, 0.8);
+        }
+        /* 粒子动画 */
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-200px) translateX(50px);
+                opacity: 0;
+            }
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .mindfulness-track {
+                gap: 30px;
+                padding: 30px 20px;
+            }
+            .mindfulness-card {
+                flex: 0 0 280px;
+                height: 180px;
+                font-size: 1.5rem;
+            }
+        }
+    /* 最佳游戏栏目样式 */
+    .video-box {
+      width: 800px;
+      height: 448px;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      overflow: hidden;
+    }
+    .video-box>div {
+      width: 266px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /* background-color: rgba(0, 0, 0, .3); */
+      color: #fff;
+      border: 1px solid #ededed;
+      border-right: 0;
+    }
+    .video-box video {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: -1;
+    }
+    .video-box .item:not(:first-child) video {
+      opacity: 0;
+    }
+    .video-box .active {
+      animation: show_ 0.7s linear 1 forwards;
+    }
+    .video-box .next {
+      animation: hidden_ 0.7s linear 1 forwards;
+    }
+    @keyframes show_ {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+    @keyframes hidden_ {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+
+        /* 文章类栏目样式 */
+        .category-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #1a0635 0%, #2a0a4a 100%);
+        }
+        .category-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .section-title h2 {
+            font-size: 2.5rem;
+            display: inline-block;
+            padding-bottom: 15px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        .category-card {
+            border-radius: 30px;
+            padding: 25px;
+        }
+        .category-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--geek-purple-neon);
+            display: flex;
+            align-items: center;
+        }      
+        .category-card h3 i {
+            margin-right: 10px;
+        }        
+        .articles-grid {
+            display: flex;
+            overflow-x: auto;
+            gap: 25px;
+            padding: 30px 5% 15px;
+            scroll-behavior: smooth;
+            flex-wrap: nowrap;
+            scrollbar-width: none; 
+            -ms-overflow-style: none; 
+        }
+        .articles-grid::-webkit-scrollbar {
+        display: none; 
+        }
+        .article-card {
+            flex: 0 0 300px;
+            background: transparent;
+            padding: 30px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: none;
+            position: relative;
+            margin-bottom: 30px;
+            background: rgba(30, 30, 40, 0.9);
+            border-radius: 15px;
+            border: 2px solid var(--geek-purple-medium);
+        }
+        .article-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--geek-purple-neon);
+            padding-bottom: 10px;
+            border-bottom: 6px solid var(--geek-purple-medium);
+            position: relative;
+        }
+        .content-preview {
+            /* 使内容区域在可用空间内自动扩展 */
+            flex-grow: 1;
+            /* 设置上下内边距为15px，左右内边距为0 */
+            padding: 15px 0;
+            /* 设置底部外边距为10px */
+            margin-bottom: 10px;
+            /* 设置行高为1.7倍 */
+            line-height: 1.7;
+            /* 增大预览区域高度，最小高度为210px */
+            min-height: 210px;
+            /* 使用flex布局 */
+            display: flex;
+            /* 设置flex子项垂直排列 */
+            flex-direction: column;
+            /* 使flex子项在垂直方向上均匀分布 */
+            justify-content: space-between;
+        }
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: white;
+        }
+        .article-tag {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            background: rgb(8, 141, 223);
+        }
+        .article-card:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(224, 170, 255, 0.6);
+            outline: 2px solid var(--theme-white);
+            z-index: 10;
+        }
+        .article-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(224, 170, 255, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 15px;
+        }
+        .article-card:hover::after {
+            opacity: 1;
+        }
+        .more-btn {
+            display: block;
+            width: 200px;
+            margin: 40px auto 0;
+            padding: 15px 0;
+            text-align: center;
+            background: transparent;
+            color: var(--geek-purple-neon);
+            border: 2px solid var(--geek-purple-medium);
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .more-btn:hover {
+            background: var(--geek-purple-medium);
+            color: var(--theme-white);
+        }
+
+        /* 颁奖台样式 */
+        .geek-podium-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            gap: 30px;
+            height: 400px;
+            margin-top: 80px;
+            position: relative;
+        }
+        .geek-podium {
+            position: relative;
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .podium-base {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .podium-rank {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--podium-color);
+            text-shadow: 0 0 15px var(--podium-glow);
+            margin-bottom: 10px;
+            z-index: 3;
+            position: relative;
+        }
+        .podium-platform {
+            width: 180px;
+            height: var(--podium-height);
+            background: linear-gradient(145deg, var(--podium-dark) 0%, var(--podium-color) 100%);
+            border-radius: 5px 5px 0 0;
+            box-shadow: 0 10px 25px var(--podium-shadow);
+            position: relative;
+            z-index: 2;
+            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+        }
+        .podium-effect {
+            position: absolute;
+            bottom: 0;
+            width: 200px;
+            height: 20px;
+            background: var(--podium-glow);
+            filter: blur(15px);
+            opacity: 0.7;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        .gold {
+            --podium-color: #ffd700;
+            --podium-dark: #d4af37;
+            --podium-glow: rgba(255, 215, 0, 0.6);
+            --podium-shadow: rgba(255, 215, 0, 0.3);
+            --podium-height: 220px;
+            margin-bottom: -20px;
+        }
+        .silver {
+            --podium-color: #c0c0c0;
+            --podium-dark: #a8a8a8;
+            --podium-glow: rgba(192, 192, 192, 0.6);
+            --podium-shadow: rgba(192, 192, 192, 0.3);
+            --podium-height: 180px;
+        }
+
+        .bronze {
+            --podium-color: #db7f22;
+            --podium-dark: #a9682c;
+            --podium-glow: rgba(199, 125, 51, 0.6);
+            --podium-shadow: rgba(205, 127, 50, 0.3);
+            --podium-height: 150px;
+            margin-bottom: 10px;
+        }
+        .song-display {
+            position: absolute;
+            top: -120px;
+            text-align: center;
+            z-index: 4;
+            transition: all 0.3s ease;
+        }
+        .song-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--theme-white);
+            margin-bottom: 7px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px var(--geek-purple-neon);
+        }
+        .song-artist {
+            font-size: 1.1rem;
+            color: var(--theme-white);
+            transition: all 0.3s ease;
+        }
+        .ripple-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--podium-glow) 0%, transparent 70%);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        /* 颁奖台发光 */
+        .podium-platform::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(0,0,0,0.2) 100%);
+            border-radius: 5px 5px 0 0;
+            clip-path: polygon(0% 0%, 100% 0%, 85% 100%, 15% 100%);
+        }
+        .podium-platform::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 15%;
+            right: 15%;
+            height: 10px;
+            background: var(--podium-dark);
+            clip-path: polygon(0% 0%, 100% 0%, 80% 100%, 20% 100%);
+            z-index: -1;
+            filter: blur(5px);
+            opacity: 0.7;
+        }
+        /* 名称悬浮效果 */
+        .geek-podium:hover .podium-effect {
+            height: 30px;
+            filter: blur(20px);
+            opacity: 0.9;
+        }
+        .geek-podium:hover .song-display {
+            transform: translateY(-10px);
+        }
+        .geek-podium:hover .song-name {
+            transform: translateY(-5px);
+            color: var(--podium-color);
+            text-shadow: 0 0 15px var(--podium-glow);
+        }
+        .geek-podium:hover .song-artist {
+            transform: translateY(5px);
+            color: var(--geek-purple-mediu);
+        }
+        .geek-podium:hover .ripple-effect {
+            width: 200px;
+            height: 200px;
+            opacity: 0.4;
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .geek-podium-container {
+                flex-direction: column;
+                align-items: center;
+                height: auto;
+                gap: 60px;
+            }
+            .geek-podium {
+                width: 180px;
+                margin-bottom: 80px !important;
+            }
+            .song-display {
+                top: -100px;
+            }
+            .gold, .silver, .bronze {
+                margin-bottom: 0 !important;
+            }
+        }
+
+        /* 排行榜样式 */
+        .book-rankings-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+        .book-ranking {
+            background: rgba(45, 45, 58, 0.8);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid var(--geek-purple-medium);
+            box-shadow: 0 10px 20px rgba(123, 44, 191, 0.2);
+            transition: all 0.3s ease;
+        }
+        .book-ranking:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(123, 44, 191, 0.4);
+        }
+        .ranking-title {
+            font-size: 1.5rem;
+            color: var(--geek-purple-neon);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 6px solid var(--geek-purple-light);
+            text-align: center;
+            /* 确保标题块级元素居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .book-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .book-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: rgba(30, 30, 40, 0.6);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--geek-purple-light);
+        }
+        .book-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(224, 170, 255, 0.3);
+        }
+        .book-rank {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--geek-purple-neon);
+            width: 30px;
+            text-align: center;
+            margin-right: 15px;
+        }
+        .book-info {
+            flex: 1;
+        }
+        .book-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--theme-white);
+            transition: all 0.3s ease;
+        }
+        .book-author {
+            font-size: 0.9rem;
+            color: var(--theme-white);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        .book-item:hover .book-name {
+            color: var(--geek-purple-neon);
+            transform: translateY(-3px);
+        }
+        .book-item:hover .book-author {
+            color: var(--geek-purple-neon);
+            transform: translateY(-3px);
+        }
+        .book-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center,  rgba(45, 45, 58, 0.3) 0%, transparent 70%);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        .book-item:hover .book-glow {
+            opacity: 1;
+        }
+        /* 排名颜色 */
+        .book-item[data-rank="1"] .book-rank {
+            color: #ffd700;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+        .book-item[data-rank="2"] .book-rank {
+            color: #c0c0c0;
+            text-shadow: 0 0 5px rgba(192, 192, 192, 0.5);
+        }
+        .book-item[data-rank="3"] .book-rank {
+            color: #82530b;
+            text-shadow: 0 0 5px rgba(205, 127, 50, 0.5);
+        }
+
+        /* 动态样式 */
+        /* 时间轴样式 */
+        .timeline-container {
+            width: 100%;
+            padding: 60px 5%;
+            position: relative;
+            -webkit-overflow-scrolling: touch; /* 平滑滚动(iOS) */
+            overflow-x: hidden; /* Hide horizontal scrollbar */
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .timeline-container::-webkit-scrollbar {
+            display: none; /* Chrome, Safari and Opera */
+        }
+        .timeline {
+            position: relative;
+            height: 210px;
+            display: flex;
+            align-items: center;
+            width: max-content;
+            min-width: 100%;
+        }
+        .timeline-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--geek-purple-medium);
+            z-index: 1;
+            top:28%;
+            transform: translateY(-50%);
+        }
+        .timeline-events {
+            display: flex;
+            gap: 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.5s ease-out;
+            width: max-content;
+        }
+        /* 基础事件样式 */
+        .timeline-event {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            transition: all 0.3s ease;
+            width: 200px;
+            flex-shrink: 0;
+        }
+        .timeline-date {
+            color: var(--geek-purple-neon);
+            font-weight: 600;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            order: 1; /* 控制顺序 */
+        }
+        .timeline-node {
+            width: 20px;
+            height: 20px;
+            background: var(--geek-purple-dark);
+            border: 3px solid var(--geek-purple-neon);
+            border-radius: 50%;
+            position: relative;
+            z-index: 3;
+            transition: all 0.3s ease;
+            order: 2; /* 控制顺序 */
+        }
+        .timeline-content {
+            background: rgba(45, 45, 58, 0.8);
+            border: 2px solid var(--geek-purple-medium);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 15px;
+            width: 180px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            order: 3; /* 控制顺序 */
+        }
+        /* 悬浮效果 */
+        .timeline-event:hover {
+            transform: scale(1.2);
+            z-index: 10;
+        }
+
+        .timeline-event:hover .timeline-date {
+            transform: translateY(-10px);
+            color: var(--theme-white);
+            text-shadow: 0 0 10px var(--geek-purple-neon);
+        }
+
+        .timeline-event:hover .timeline-node {
+            transform: scale(1.5) translateY(5px);
+            background: var(--geek-purple-neon);
+            box-shadow: 0 0 15px var(--geek-purple-neon);
+        }
+        .timeline-event:hover .timeline-content {
+            transform: translateY(10px);
+            border-color: var(--theme-white);
+            box-shadow: 0 10px 30px rgba(224, 170, 255, 0.6);
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .timeline-events {
+                gap: 60px;
+            }
+            .timeline-event {
+                width: 160px;
+            }
+            .timeline-content {
+                width: 140px;
+                padding: 15px;
+            }
+        }    
+
+        /* 联系我样式 */
+        /* 联系方式图标 */
+        .contact-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--geek-purple-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: var(--theme-white);
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(123, 44, 191, 0.4);
+        }
+        /* 旋转和光晕效果 */
+        .contact-icon:hover {
+            transform: rotate(360deg) scale(1.1);
+            background: var(--geek-purple-light);
+            box-shadow: 0 0 30px var(--icon-glow, rgba(224, 170, 255, 0.8));
+            animation: pulse 1.5s infinite alternate;
+        }
+        /* 不同图标颜色 */
+        .contact-icon.wechat { --icon-glow: rgba(7, 193, 96, 0.8); }
+        .contact-icon.qq { --icon-glow: rgba(25, 159, 221, 0.8); }
+        .contact-icon.bilibili { --icon-glow: rgba(251, 114, 153, 0.8); }
+        .contact-icon.tiktok { --icon-glow: rgba(194, 214, 214, 0.998); }
+        .contact-icon.telegram { --icon-glow: rgba(0, 136, 204, 0.8); }
+        /* 联系信息提示 */
+        .contact-info {
+            position: absolute;
+            bottom: -45px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--geek-purple-medium);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease, bottom 0.3s ease;
+            pointer-events: none;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .contact-icon:hover .contact-info {
+            opacity: 1;
+            bottom: -50px;
+        }
+        /* 脉冲动画 */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 10px var(--icon-glow);
+            }
+            100% {
+                box-shadow: 0 0 30px var(--icon-glow);
+            }
+        }
+        /* 图标颜色调整 */
+        .fa-weixin { color: #07c160; }
+        .fa-qq { color: #199fdd; }
+        .fa-bilibili { color: #fb7299; }
+        .fa-tiktok { color: #161c19; }
+        .fa-telegram { color: #0088cc; }
+
+        /* 投稿页面样式 */
+        .admin-panel {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        #admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .admin-modal-content {
+            background: var(--theme-black);
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 15px;
+            border: 2px solid var(--geek-purple-medium);
+            overflow: hidden;
+        }
+        .admin-header {
+            background: var(--geek-purple-medium);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .admin-header h2 {
+            color: white;
+        }
+        .close-admin {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+        .admin-body {
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--geek-purple-neon);
+        }
+        .form-group input,
+        .form-group select {
+            /* 缩小输入框和选择框的长度 */
+            width: 70%; 
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid var(--geek-purple-medium);
+            background: rgba(45, 45, 58, 0.6);
+            color: var(--theme-white);
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            /* 这里保持 textarea 的宽度不变,可根据需求调整 */
+            width: 100%; 
+            min-height: 200px;
+            resize: vertical;
+            background: rgba(45, 45, 58, 0.6);
+            color: var(--theme-white);
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .admin-footer {
+            padding: 20px 30px;
+            background: var(--th);
+            text-align: right;
+        }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--geek-purple-medium);
+            color: white;
+        }
+
+
+        /* 页脚 */
+        footer {
+            background: var(--geek-purple-dark);
+            padding: 30px 5%;
+            text-align: center;
+            color: var(--geek-purple-neon);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--geek-purple-medium);
+        }
+        /* 动画效果 */
+        @keyframes waveAnimation {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(224, 170, 255, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(224, 170, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(224, 170, 255, 0); }
+        }
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .welcome-text {
+                font-size: 3.5rem;
+            }
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .welcome-text {
+                font-size: 2.5rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }     
+            .category-grid {
+                grid-template-columns: 1fr;
+            }
+            .articles-flow {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 概念交互样式 */
+        /* 背景设置 */
+        canvas {
+            
+        }
+        #instructions {
+            position: absolute;
+            color: #f4e9e9;
+            bottom: 0;
+            padding-bottom: 6px;
+            font-family: sans-serif;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">Inkstone</a>
+        <div class="navbar-menu">
+            <div class="nav-item">
+                <a href="#" class="nav-link">分类</a>
+                <div class="dropdown-menu">
+                    <a href="所有文章页面.html" class="dropdown-item" ><i class="fas fa-list"></i>所有文章</a>
+                    <a href="#mindfulness" class="dropdown-item"><i class="fas fa-spa"></i>每日正念</a>
+                    <a href="#recommended-articles" class="dropdown-item"><i class="fas fa-star"></i>推荐阅读</a>        
+                    <a href="#original-novels" class="dropdown-item"><i class="fas fa-book"></i>原创文学</a>
+                    <a href="#casual-talk" class="dropdown-item"><i class="fas fa-comment"></i>不吐不快</a>
+                    <a href="#favorite-games" class="dropdown-item"><i class="fas fa-gamepad"></i>最佳游戏</a>
+                    <a href="#favorite-movies" class="dropdown-item"><i class="fas fa-film"></i>最佳影视</a>                 
+                    <a href="#favorite-songs" class="dropdown-item"><i class="fas fa-music"></i>最佳音乐</a>
+                    <a href="#favorite-books" class="dropdown-item"><i class="fas fa-book-open"></i>最佳著作</a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a href="#" class="nav-link" id="open-admin-link">投稿</a>
+            </div>
+            <div class="nav-item">
+                <a href="#news" class="nav-link">更新动态</a>
+            </div>
+            <div class="nav-item">
+                <a href="#contact" class="nav-link">联系我</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页欢迎区 -->
+    <section id="welcome">
+        <div class="background-effects">
+            <div class="effect-circle" style="width: 500px; height: 500px; top: -200px; right: -100px; animation: randomMove1 6s ease-in-out infinite;"></div>
+            <div class="effect-circle" style="width: 700px; height: 700px; bottom: -300px; left: -200px; animation: randomMove2 8s ease-in-out infinite;"></div>
+        </div>
+        <div class="container">
+            <div class="welcome-content">
+                <div class="welcome-text">
+                    2077年,文字海啸将席卷人类世界……
+                </div>
+                <div class="welcome-icon">
+                    <div class="wave-icon" style="animation: 3s ease-in-out 0s infinite normal none running waveAnimation;right: -120px; bottom: -70px;"></div>
+                    <div class="wave-icon" style="animation: 3s ease-in-out 0.2s infinite normal none running waveAnimation;right: 5px; bottom: -120px;"></div>
+                    <div class="wave-icon" style="animation: 3s ease-in-out 0.4s infinite normal none running waveAnimation;right: 125px; bottom: -170px;"></div>
+                </div>
+                <div class="welcome-subtext">
+                    <span style="display: inline-block; position: relative; top: 150px;">莎士比亚的砚台</span>
+                    <div class="purple-glow" style="position: absolute; right: 120px; bottom: -240px; width: 360px; height: 360px; background: radial-gradient(circle, rgba(200, 100, 255, 0.8) 0%, rgba(200, 100, 255, 0) 70%); filter: blur(60px);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 概念交互栏目 -->
+    <div id="three-container"></div><!-- 默认左上角显示自定义内容 -->
+    <div id="instructions"></div><!-- 默认上方显示自定义内容 -->
+
+    <!-- 每日正念栏目 -->
+    <section id="mindfulness" class="category-section" style="margin-top: -10px;">
+        <div class="category-container">
+            <div class="section-title">
+                <h2>🌿每日正念</h2>
+            </div>
+            <div class="mindfulness-carousel">
+                <div class="mindfulness-track">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--推荐阅读栏目 -->
+    <section id="recommended-articles" class="category-section" style="margin-top: -40px;">
+        <div class="category-container">
+            <div class="section-title">
+                <h2>🚀推荐阅读</h2>
+            </div>
+            <div class="category-grid">  
+                <div class="category-card">
+                    <div class="articles-grid">
+                        <div class="article-card">
+                            <h4>黑曜石:从入门到入土</h4>
+                            <div class="content-preview">
+                                摘要:
+                                obsidian是一款基于Markdown的本地知识管理软件,主要用于构建个人知识库。它具有以下特点:
+                                1.采用纯文本Markdown格式存储笔记,确保长期可访问性
+                                2.支持双向链接功能,可以建立笔记间的关联网络
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-25</span>
+                                <span class="article-tag">#知识管理#软件</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>幕布食用指南</h4>
+                            <div class="content-preview">
+                                摘要:
+                                幕布是一款结合了大纲笔记与思维导图的效率工具,主要特点包括：
+                                1. 结构化编辑采用层级折叠式大纲笔记形式,方便整理思路
+                                2. 一键转换思维导图：大纲内容可即时转换为思维导图展示
+                                3. 团队协作：支持多人协作编辑同一文档
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-24</span>
+                                <span class="article-tag">#知识管理#软件</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>战双帕弥什</h4>
+                            <div class="content-preview">
+                                摘要：
+                                战双帕弥什是一款末世3D美少女风格的次世代动作游戏,开发商为库洛游戏。总部位于杭州晨光文具店旁边的小楼……
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-23</span>
+                                <span class="article-tag">#游戏</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>鸣潮</h4>
+                            <div class="content-preview">
+                                摘要:
+                                鸣潮是由库洛游戏开发的一款二次元开放世界动作游戏,于2024年5月23日正式公测。游戏采用虚幻引擎打造,主打高自由度的战斗玩法和沉浸式的开放世界探索,支持PC,iOS和安卓多平台同步游玩
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-22</span>
+                                <span class="article-tag">#游戏</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 原创文学栏目 -->
+    <section id="original-novels" class="category-section" style="margin-top: -40px;">
+        <div class="category-container">
+            <div class="section-title">
+                <h2>💕原创文学</h2>
+            </div>
+            <div class="category-grid">  
+                <div class="category-card">
+                    <div class="articles-grid">
+                        <div class="article-card">
+                            <h4>迷失黑海</h4>
+                            <div class="content-preview">
+                                摘要：
+                                兄弟惨死,家人离世,妹妹病重,为赚钱去航海却惨遭穿着哥特式礼裙的绝美少女无情分尸,绝望的查尔斯该如何在这癫狂的黑海求生？欲知后世如何,先扫码转10块
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-25</span>
+                                <span class="article-tag">#克苏鲁</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>第一个有名字的主角</h4>
+                            <div class="content-preview">
+                                摘要：
+                                省去一万字,主角名为江陌。本书的故事大概是大燕王朝的国都被叛军包围,太子江陌被俘虏,被迫流亡。
+                                1932年,江陌被派往东洋,与好友一起前往东洋。
+                                东洋是一个充满历史的地方,历史悠久,文化底蕴深厚。
+                                江陌在东洋的生活中,遇到了很多人,也结识了很多人。
+                                江陌在东洋的生活中,遇到了很多人,也结识了很多人。
+                                编不下去了,故事背景早忘了
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-24</span>
+                                <span class="article-tag">#主角</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>取自逃生</h4>
+                            <div class="content-preview">
+                                摘要：
+                                天真赤诚的我们随着哭声而落地,
+                                降生在这人世间。
+                                在这短暂又徒劳的一生蹒跚而行,
+                                重复相似又不同的悲伤。
+                                我们是天资最差的诗人,
+                                吟不出浪漫美好的金曲和诗篇。
+                                穷至生命的尽头你我已白发苍颜,
+                                看这黯淡如默剧的人生奔涌而过,无情向前：
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-23</span>
+                                <span class="article-tag">#诗歌</span>
+                            </div>
+                        </div>
+                        <div class="article-card">
+                            <h4>热血屠狼</h4>
+                            <div class="content-preview">
+                                摘要：
+                                可能是创作地最早的一篇较长的小说。小说名不叫这个,
+                                一时想不起来所以用高潮情节来指代书名。
+                                故事是我做了个梦（是的主角是我）,
+                                我呆在仙境遇到了一匹狼,为了求生我艰难战斗,好不容易杀死了狼然后发现只是一个梦
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-20</span>
+                                <span class="article-tag">#可能是第一篇小说</span>
+                            </div>
+                        </div>
+                         <div class="article-card">
+                            <h4>一个遗憾</h4>
+                            <div class="content-preview">
+                                摘要:
+                                初中毕业后,信心满满地写小说,并且上传到了某站,最后因为一些难以启齿的原因在短短几天内被封,苍天无眼呐...
+                            </div>
+                            <div class="article-meta">
+                                <span class="date">2025-06-22</span>
+                                <span class="article-tag">#遗憾</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- 不吐不快栏目 -->
+  <section id="casual-talk" class="category-section" style="margin-top: -40px;">
+    <div class="category-container">
+        <div class="section-title">
+            <h2>🤑不吐不快</h2>
+        </div>
+        <div class="category-grid">  
+            <div class="category-card">
+                <div class="articles-grid">
+                    <div class="article-card">
+                        <h4>鼠头?鸭脖?鼠头鸭脖!</h4>
+                        <div class="content-preview">
+                            摘要:
+                            一个有目共睹的事情,市级甚至省级高管竟然脸不红心不跳地把全国人民当傻子,,最后竟然引发了一场政府的信用危机🤣🤣🤣
+                            老太太钻被窝,给爷整笑了。资本,你赢了!
+                        </div>
+                        <div class="article-meta">
+                            <span class="date">2025-06-23</span>
+                            <span class="article-tag">#政府信用#官员</span>
+                        </div>
+                    </div>
+                    <div class="article-card">
+                        <h4>北京协和医院董小姐</h4>
+                        <div class="content-preview">
+                            摘要:
+                            太阳说:医生一定要会治病🥶🥶🥶
+                            
+                        </div>
+                        <div class="article-meta">
+                            <span class="date">2025-06-22</span>
+                            <span class="article-tag">#医生#学历#特权</span>
+                        </div>
+                    </div>
+                    <div class="article-card">
+                        <h4>川普对中国加征20%关税</h4>
+                        <div class="content-preview">
+                            摘要:
+                            知道为什么关羽能过五关斩六将吗?因为他加了20%关税😚😚😚
+                        </div>
+                        <div class="article-meta">
+                            <span class="date">2025-06-21</span>
+                            <span class="article-tag">#经济#关税</span>
+                        </div>
+                    </div>
+                    <div class="article-card">
+                        <h4>字节跳动</h4>
+                        <div class="content-preview">
+                            摘要:
+                            字节跳动开发的软件都是依托答辩🤬🤬🤬豆包是最蠢的LLM,
+                            汽水音乐很垃圾,番茄小说可以看短剧购物,
+                            Trae是我用过最难用的代码编辑器,抖音是我见过最臃肿的软件,比微信都臃肿
+                        </div>
+                        <div class="article-meta">
+                            <span class="date">2025-06-20</span>
+                            <span class="article-tag">#字节跳动#答辩</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 最佳游戏栏目 -->
+<h1 id="favorite-games" style="text-align: center; font-size: 2.5rem; margin-bottom: 100px;">🎮最佳游戏</h1>
+    <div class="video-box">
+    <div class="item">
+      <span>1</span>
+      <video id="videos0" autoplay muted loop>
+        <source src="https://dry-green-m9w82psjvg.edgeone.app/%E4%BD%BF%E5%91%BD%E5%8F%AC%E5%94%A4.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="item">
+      <span>2</span>
+      <video id="videos1" autoplay muted loop>
+        <source src="https://swift-green-i4ihvoelor.edgeone.app/%E6%BC%94%E5%A5%8F.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="item">
+      <span>3</span>
+      <video id="videos2" autoplay muted loop>
+        <source src="https://easy-magenta-cfkcnfypzu.edgeone.app/%E6%95%91%E8%B5%8E.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- 最佳影视栏目 -->
+<section id="favorite-movies" class="category-section" style="margin-top: -40px;">
+    <div class="category-container">
+        <div class="section-title">
+            <h2>🎞️最佳影视</h2>
+        </div>
+        <div class="category-grid">  
+            <div class="category-card">
+                <div class="book-rankings-container">
+                    <!-- 总榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">总榜</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">让子弹飞</div>
+                                    <div class="book-author">姜文</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">八佰</div>
+                                    <div class="book-author">管虎</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">灵笼</div>
+                                    <div class="book-author">艺画开天</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 动画排行榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">动画</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">灵笼</div>
+                                    <div class="book-author">艺画开天</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">雾山五行</div>
+                                    <div class="book-author">六道无鱼</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">紫罗兰永恒花园</div>
+                                    <div class="book-author">京都动画</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 历史剧排行榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">历史</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">大明王朝1556</div>
+                                    <div class="book-author">张黎</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">投名状</div>
+                                    <div class="book-author">陈可欣</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">大明风华</div>
+                                    <div class="book-author">张挺</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 最佳音乐栏目  -->
+<section id="favorite-songs" class="category-section" style="margin-top: -40px;">
+    <div class="category-container">
+        <div class="section-title">
+            <h2>🎵最佳音乐</h2>
+        </div>
+        <div class="category-card">
+            <div class="geek-podium-container" style="margin-top: -10px;">
+                <!-- 银牌（第二名） -->
+                <div class="geek-podium silver">
+                    <div class="podium-base">
+                        <div class="podium-rank">2</div>
+                        <div class="podium-platform"></div>
+                        <div class="podium-effect"></div>
+                    </div>
+                    <div class="song-display" style="top: -80px;">
+                        <div class="song-name">唯一</div>
+                        <div class="song-artist">邓紫棋</div>
+                        <div class="ripple-effect"></div>
+                    </div>
+                </div>
+                <!-- 金牌（第一名） -->
+                <div class="geek-podium gold">
+                    <div class="podium-base">
+                        <div class="podium-rank">1</div>
+                        <div class="podium-platform"></div>
+                        <div class="podium-effect"></div>
+                    </div>
+                    <div class="song-display" style="top: -80px;">
+                        <div class="song-name">Dear Friend</div>
+                        <div class="song-artist">祈紫檀</div>
+                        <div class="ripple-effect"></div>
+                    </div>
+                </div>
+                <!-- 铜牌（第三名） -->
+                <div class="geek-podium bronze">
+                    <div class="podium-base">
+                        <div class="podium-rank">3</div>
+                        <div class="podium-platform"></div>
+                        <div class="podium-effect"></div>
+                    </div>
+                    <div class="song-display" style="top: -80px;">
+                        <div class="song-name">21</div>
+                        <div class="song-artist">Gracie</div>
+                        <div class="ripple-effect"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 最佳著作栏目 -->
+<section id="favorite-books" class="category-section" style="margin-top: -40px;">
+    <div class="category-container">
+        <div class="section-title">
+            <h2>📚最佳著作</h2>
+        </div>
+        <div class="category-grid">  
+            <div class="category-card">
+                <div class="book-rankings-container">
+                    <!-- 总榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">总榜</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">道诡异仙</div>
+                                    <div class="book-author">狐尾的笔</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">诡秘地海</div>
+                                    <div class="book-author">狐尾的笔</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">故障乌托邦</div>
+                                    <div class="book-author">狐尾的笔</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 出版小说排行榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">出版小说</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">百年孤独</div>
+                                    <div class="book-author">加西亚·马尔克斯</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">堂吉诃德</div>
+                                    <div class="book-author">塞万提斯</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">平凡的世界</div>
+                                    <div class="book-author">路遥</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 诗歌排行榜 -->
+                    <div class="book-ranking">
+                        <h3 class="ranking-title">诗歌</h3>
+                        <div class="book-list">
+                            <div class="book-item" data-rank="1">
+                                <div class="book-rank">1</div>
+                                <div class="book-info">
+                                    <div class="book-name">蜀道难</div>
+                                    <div class="book-author">李白</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="2">
+                                <div class="book-rank">2</div>
+                                <div class="book-info">
+                                    <div class="book-name">念奴娇·赤壁怀古</div>
+                                    <div class="book-author">苏轼</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                            <div class="book-item" data-rank="3">
+                                <div class="book-rank">3</div>
+                                <div class="book-info">
+                                    <div class="book-name">七律·三打白骨精·和郭</div>
+                                    <div class="book-author">毛泽东</div>
+                                </div>
+                                <div class="book-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 更新动态栏目 -->
+<section id="news" style="margin-top: -30px;">
+    <div class="container">
+        <div class="section-title">
+            <h2>🛸更新动态</h2>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline">
+                <div class="timeline-line"></div>
+                <div class="timeline-events">
+                    <!-- 时间轴事件将通过JavaScript动态生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+<!-- 联系我栏目 -->
+<section id="contact" style="margin-top: -40px;">
+    <div class="container">
+        <div class="section-title">
+            <h2>👾联系我</h2>
+        </div>
+        <div class="contact-container" style="display: flex; justify-content: space-between; align-items: center; margin-left: 180px;">
+            <div class="contact-details">
+                <div class="about-me">
+                    <h3>关于我</h3>               
+                    <p>一名普通学生🤗照片-->（假的）</p>
+                </div>
+                <div class="contact-methods">
+                    <h3>联系方式</h3>
+                    <p>欢迎通过以下方式与我联系：</p>
+                    <div class="contact-icons">
+                        <!-- 哔哩哔哩 -->
+                        <a href="https://space.bilibili.com/523951940" class="contact-icon" target="_blank" data-info="">
+                            <i class="fab fa-bilibili"></i>
+                            <div class="contact-info">点击进入B站主页</div>
+                        </a>                   
+                        <!-- 抖音 -->
+                        <a href="https://www.douyin.com/user/self?from_tab_name=main" class="contact-icon" target="_blank" data-info="">
+                            <i class="fab fa-tiktok"></i>
+                            <div class="contact-info">点击进入抖音主页</div>
+                        </a>
+                        <!-- Telegram -->
+                        <a href="images/彩蛋1.png" class="contact-icon" target="_blank" data-info="">
+                            <i class="fab fa-telegram"></i>
+                            <div class="contact-info">手机扫码添加</div>
+                        </a>
+                        <!-- 微信 -->
+                        <a href="images/彩蛋2.png" class="contact-icon" target="_blank" data-info="">
+                            <i class="fab fa-weixin"></i>
+                            <div class="contact-info">手机扫码添加</div>
+                        </a>
+                        <!-- QQ -->
+                        <a href="https://www.douyin.com/user/self?from_tab_name=main&modal_id=7520199198777019687" class="contact-icon" target="_blank" data-info="">
+                            <i class="fab fa-qq"></i>
+                            <div class="contact-info">手机扫码添加</div>
+                        </a>                  
+                    </div>
+                </div>
+            </div>
+            <!-- 右侧添加圆形照片及注释 -->
+            <div class="profile-photo" style="transform: scale(1.5) translateX(-190px); transform-origin: center;">
+                <!-- 请将此处的图片链接替换为实际的图片链接 -->
+                <img src="images/个人照片.jpg" alt="个人照片" style="border-radius: 50%; width: 200px; height: 200px; object-fit: cover;">
+                <p style="text-align: center; color: rgb(237, 237, 237);"></p>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- emoji栏目 -->
+    <div style="display: flex; justify-content: center; gap: 20px;">
+        <div class="emoji emoji--like">
+            <div class="emoji__hand">
+                <div class="emoji__thumb"></div>
+            </div>
+        </div>
+        <div class="emoji emoji--love">
+            <div class="emoji__heart"></div>
+        </div>
+        <div class="emoji emoji--haha">
+            <div class="emoji__face">
+                <div class="emoji__eyes"></div>
+                <div class="emoji__mouth">
+                    <div class="emoji__tongue"></div>
+                </div>
+            </div>
+        </div>
+        <div class="emoji emoji--yay">
+            <div class="emoji__face">
+                <div class="emoji__eyebrows"></div>
+                <div class="emoji__mouth"></div>
+            </div>
+        </div>
+        <div class="emoji emoji--wow">
+            <div class="emoji__face">
+                <div class="emoji__eyebrows"></div>
+                <div class="emoji__eyes"></div>
+                <div class="emoji__mouth"></div>
+            </div>
+        </div>
+        <div class="emoji emoji--sad">
+            <div class="emoji__face">
+                <div class="emoji__eyebrows"></div>
+                <div class="emoji__eyes"></div>
+                <div class="emoji__mouth"></div>
+            </div>
+        </div>
+        <div class="emoji emoji--angry">
+            <div class="emoji__face">
+                <div class="emoji__eyebrows"></div>
+                <div class="emoji__eyes"></div>
+                <div class="emoji__mouth"></div>
+            </div>
+        </div>
+    </div>
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <p>@Inkstone| 无限进步QAQ!</p>
+        </div>
+    </footer>
+
+    <!-- 投稿 -->
+    <div id="admin-modal" style="display: none;">
+        <div class="admin-modal-content">
+            <div class="admin-header">
+                <h2>投稿</h2>
+                <button class="close-admin">X</button>
+            </div>
+            <div class="admin-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="article-title">文章标题</label>
+                        <input type="text" id="article-title" placeholder="输入文章标题">
+                    </div>
+                    <div class="form-group">
+                        <label for="article-category">分类</label>
+                        <select id="article-category">
+                            <option value="hot">推荐阅读</option>
+                            <option value="essay">不吐不快</option>
+                            <option value="literature">原创文学</option>
+                            <option value="tech">🚫等待施工中</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="article-tags">标签用逗号分隔</label>
+                    <input type="text" id="article-tags" placeholder="例如：科技,未来,AI">
+                </div>    
+                <div class="form-group">
+                    <label for="article-excerpt">文章摘要</label>
+                    <textarea id="article-excerpt" placeholder="将显示在列表页"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="article-content">文章内容</label>
+                    <textarea id="article-content" placeholder="在此输入文章内容..."></textarea>
+                </div>                
+            </div>           
+            <div class="admin-footer">
+                <button class="btn btn-outline">保存草稿</button>
+                <button class="btn btn-primary">发布文章</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 鼠标点击后出现烟花效果 -->
+    <script src="https://blog-static.cnblogs.com/files/axqa/cursor-effects.js"></script>
+        <span class="js-cursor-container"></span>
+
+    <!-- 概念交互效果 -->
+    <script src='js/three.min.js'></script>
+    <script src='js/TweenMax.min.js'></script>
+    <script src='js/bas.js'></script>
+    <script src='js/OrbitControls-2.js'></script>
+    <script src="js/script.js"></script>
+
+    <!-- 最佳游戏效果 -->
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script>
+    //最佳游戏
+    var box = $(".video-box")
+    var nextItem = 0
+    box.delegate(".item", "mouseover", function (e) {
+      e.stopPropagation()
+      $(this).find("span").css("transform", "scale(5)")
+      if (nextItem != $(this).index()) {
+        $(".video-box .item").find("video").removeClass("next")
+        $(".video-box .item").find("video").removeClass("active")
+        $(".video-box .item").eq(nextItem).find("video").addClass("next")
+        $(this).find("video").addClass("active")
+        nextItem = $(this).index()
+      }
+      $("#video" + $(this).index()).load()
+    })
+    $(".video-box .item").on("mouseleave", function () {
+      $(this).find("span").css("transform", "scale(1)")
+    })
+    $(".video-box").on("mouseleave", function () {
+      $(".video-box .item").find("video").removeClass("next")
+      $(".video-box .item").find("video").removeClass("active")
+      if (nextItem != 0) {
+        $(".video-box .item").eq(nextItem).find("video").addClass("next")
+        $(".video-box .item").eq(0).find("video").addClass("active")
+        nextItem = 0
+      } else {
+        $(".video-box .item").eq(0).find("video").css("opacity", "1")
+      }
+    })
+
+        // 每日正念交互
+        document.addEventListener('DOMContentLoaded', function() {
+            const quotes = [
+                "你没有如期归来,而这正是离别的意义",
+                "你挽住火焰,化作漫天大雪",
+                "我要一直游到海水变蓝",
+                "永远少年",
+                "我身体里的火车从不错轨,所以允许大雪,风暴,泥石流和荒谬",
+                "道爷我成啦",
+                "活在这珍贵的人间,太阳强烈,水波温柔",
+                "凡是过往,皆为序章",
+                "我觉得你很像一个终生跋涉的香客,不停的寻找一座根本不可能存在的神庙 ",
+                "自由一生何其幸运",
+                "广宇浩瀚对我来说一钱不值,只有你这玫瑰是我凡尘命根",
+                "你是我的,半截的诗,不允许别人更改一字",
+                "天空一无所有,为何给我安慰",
+                "你说你孤独,就像很久以前.火星照耀十三座州府",
+                "华枝春满,天心月圆",
+                 "须知长河难渡,痴人一直在水底",
+                "无论风暴将我带到什么样的岸边.我都将以主人的身份上岸",
+                "心不是抢夺和抓住.而是一颗心走向另一颗心",
+                "你生而有翼,为何竟愿一生匍匐前进.形如虫蚁？",
+                "如果问我思念有多重？不重的。像一座秋山的落叶",
+                "如果快乐太难.那么祝你平安",
+                "我想在大地上画满窗子,让所有习惯黑暗的眼睛都习惯光明",
+                "人生海海,山山而川,不过尔尔,空空而来,苦苦而过,了了而去",
+                "平安喜乐",
+                "我的心依然难安渴望有人至死都暴烈地爱我明白爱和死一样强大并且永远地扶持我我渴望有人毁灭我,也被我毁灭",
+                "得偿所愿",
+                "遗忘把一切变得美丽",
+                "我偷偷碰了你一下,却不料你如蒲公英散开,此后到处都是你的模样",
+                "玻璃晴朗,橘子辉煌。",
+                "欲买桂花同载酒,终不似,少年游。",
+                "我会在没有人的暗夜深深检讨自己的缺憾但我不愿在众目睽睽之下把自己像次品一般展览",
+                "我们终将重逢",
+            ];
+            const colors = ['color-1', 'color-2', 'color-3', 'color-4'];
+            const track = document.querySelector('.mindfulness-track');
+            const carousel = document.querySelector('.mindfulness-carousel');
+            // 生成卡片
+            quotes.forEach((quote, index) => {
+                const card = document.createElement('div');
+                card.className = `mindfulness-card ${colors[index % colors.length]}`;
+                card.innerHTML = `
+                    <p>${quote}</p>
+                    <div class="particles"></div>
+                    <div class="light-spot"></div>
+                `;
+                // 创建粒子效果
+                const particles = card.querySelector('.particles');
+                for (let i = 0; i < 15; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.width = `${Math.random() * 10 + 5}px`;
+                    particle.style.height = particle.style.width;
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.bottom = '0';
+                    particle.style.animationDelay = `${Math.random() * 5}s`;
+                    particle.style.opacity = Math.random() * 0.5 + 0.2;
+                    particles.appendChild(particle);
+                }
+                // 初始随机旋转
+                const rotation = (Math.random() * 15) - 7.5;
+                card.style.transform = `rotate(${rotation}deg)`;
+                track.appendChild(card);
+            });
+            // 鼠标滚轮控制 
+            let isScrolling = false;
+            let scrollVelocity = 0;
+            let currentScroll = 0;
+            const maxScroll = track.scrollWidth - carousel.offsetWidth;
+            let lastScrollTime = 0
+            carousel.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                const now = performance.now();
+                const deltaTime = now - lastScrollTime;
+                lastScrollTime = now;
+                // 动态调整滚动灵敏度并反转方向
+                const sensitivity = deltaTime < 100 ? 0.6 : 1.0;
+                scrollVelocity = -e.deltaY * sensitivity; // 添加负号反转滚动方向
+                if (!isScrolling) {
+                    requestAnimationFrame(smoothScroll);
+                }
+            }, { passive: false });
+            function smoothScroll(timestamp) {
+                if (!lastScrollTime) lastScrollTime = timestamp;
+                const deltaTime = timestamp - lastScrollTime;
+                lastScrollTime = timestamp;
+                // 应用物理惯性
+                scrollVelocity *= 0.92 - Math.min(deltaTime / 1000, 0.1);
+                if (Math.abs(scrollVelocity) > 0.1) {
+                    currentScroll = Math.max(Math.min(currentScroll + scrollVelocity, 0), -maxScroll);
+                    track.style.transform = `translateX(${currentScroll}px)`;
+                    requestAnimationFrame(smoothScroll);
+                } else {
+                    isScrolling = false;
+                }
+            }
+            // 3D悬浮效果
+            document.querySelectorAll('.mindfulness-card').forEach(card => {
+                // 确保卡片启用 3D 变换
+                card.style.transformStyle = 'preserve-3d';
+                card.style.willChange = 'transform';
+                // 增加粒子数量
+                const particleCount = 13;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    // 随机设置粒子初始位置
+                    particle.style.left = `${Math.random() * 100}%`;
+                    particle.style.top = `${Math.random() * 100}%`;
+                    // 随机设置粒子大小
+                    const size = Math.random() * 10 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    // 随机设置粒子动画延迟
+                    particle.style.animationDelay = `${Math.random() * 6}s`;
+                    card.querySelector('.particles').appendChild(particle);
+                }
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    // 设置鼠标位置变量
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);                  
+                    // 计算3D倾斜角度
+                    const centerX = card.offsetWidth / 2;
+                    const centerY = card.offsetHeight / 2;
+                    const rotateX = (centerY - y) / 8;
+                    const rotateY = (x - centerX) / 8;                 
+                    // 直接设置 transform 属性,确保 3D 变换生效
+                    card.style.transform = `
+                        translateY(-30px) 
+                        scale(1.1) 
+                        rotateX(${rotateX}deg) 
+                        rotateY(${rotateY}deg)
+                    `;                   
+                    // 动态光斑跟随
+                    const lightSpot = card.querySelector('.light-spot');
+                    lightSpot.style.transform = `translate(
+                        calc(${x}px - 100px),
+                        calc(${y}px - 100px)
+                    )`;                 
+                    // 粒子效果方向
+                    const particles = card.querySelectorAll('.particle');
+                    particles.forEach(p => {
+                        p.style.transform = `translateX(${(x - centerX) / 8}px)`;
+                    });
+                });               
+                card.addEventListener('mouseleave', () => {
+                    // 恢复初始状态
+                    card.style.transform = 'translateY(0) scale(1) rotateX(0) rotateY(0)';
+                });
+            });
+        });
+
+        // 文章卡片悬浮效果
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;              
+                this.style.setProperty('--mouse-x', x + 'px');
+                this.style.setProperty('--mouse-y', y + 'px');
+                const centerX = this.offsetWidth / 2;
+                const centerY = this.offsetHeight / 2;
+                const angleY = (x - centerX) / 5;
+                const angleX = (centerY - y) / 5;              
+                this.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(30px)`;
+                this.style.boxShadow = '0 30px 50px rgba(224, 170, 255, 0.8)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+                this.style.boxShadow = '0 8px 15px rgba(123, 44, 191, 0.4)';
+            });
+        });
+        // 横向滚动控制
+        const scrollSpeedFactor = 2.5; 
+        let isScrollingArticles = false;
+        document.querySelectorAll('.articles-grid').forEach(grid => {
+            grid.addEventListener('wheel', (e) => {
+                if (!isScrollingArticles) {
+                    isScrollingArticles = true;
+                    // 通过乘以滚动速度系数来减慢滚动速度
+                    grid.scrollLeft += e.deltaY * scrollSpeedFactor; 
+                    setTimeout(() => { isScrollingArticles = false }, 100);
+                }
+                e.preventDefault();
+            }, { passive: false });
+        });
+
+        // 排行榜悬浮效果
+        document.querySelectorAll('.book-item').forEach(item => {
+            item.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const glow = this.querySelector('.book-glow');
+                glow.style.background = `radial-gradient(circle at ${x}px ${y}px,rgba(224, 170, 255, 0.4) 0%,transparent 70%)`;
+            });
+        });
+
+        // 颁奖台波纹效果
+        document.querySelectorAll('.song-display').forEach(display => {
+            display.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const ripple = this.querySelector('.ripple-effect');
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+            });
+        });
+
+        // 更新动态栏目时间轴
+        const timelineEvents = [
+            { date: "2025-6-26下午", content: "重写了最佳游戏的UI,重写了“所有文章”页面,发布了2.0正式版" },
+            { date: "2025-6-26早上", content: "移除了之前隐藏的鼠标轨迹效果（太卡了）" },
+            { date: "2025-6-25晚上", content: "新增概念交互效果" },
+            { date: "2025-6-25下午", content: "新增鼠标点击特效" },
+            { date: "2025-6-25早上", content: "去除了冗余代码,优化了代码结构" },
+            { date: "2025-6-24晚上", content: "优化UI与显示效果,发布了1.0正式版" },
+            { date: "2025-6-24下午", content: "新增每日正念栏目和导航栏" },
+            { date: "2025-6-24上午", content: "新增最佳阅读,最佳影视,最佳音乐,最佳游戏栏目" },
+            { date: "2025-6-23", content: "创建Inkstone|Blog demo,新增文章,动态,联系栏目" },
+            { date: "2025-6-22", content: "产生创建博客网站的想法" },
+        ];
+        const timelineContainer = document.querySelector('.timeline-container');
+        const timeline = document.querySelector('.timeline-events');
+        // 生成时间轴事件
+        timelineEvents.forEach(event => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'timeline-event';
+            eventElement.innerHTML = `
+                <div class="timeline-date">${event.date}</div>
+                <div class="timeline-node"></div>
+                <div class="timeline-content">${event.content}</div>
+            `;
+            timeline.appendChild(eventElement);
+        });
+        // 时间轴横向滚动控制
+        let isScrollingTimeline = false;
+        let scrollVelocityTimeline = 0;
+        let currentScrollTimeline = 0;
+        let lastScrollTimeTimeline = 0;
+        timelineContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const now = performance.now();
+            const deltaTime = now - lastScrollTimeTimeline;
+            lastScrollTimeTimeline = now;
+            // 动态调整滚动灵敏度
+            const sensitivity = deltaTime < 100 ? 0.8 : 1.2;
+            scrollVelocityTimeline = -e.deltaY * sensitivity;
+            if (!isScrollingTimeline) {
+                requestAnimationFrame(smoothScrollTimeline);
+                isScrollingTimeline = true;
+            }
+        }, { passive: false });
+        function smoothScrollTimeline(timestamp) {
+            if (!lastScrollTimeTimeline) lastScrollTimeTimeline = timestamp;
+            const deltaTime = timestamp - lastScrollTimeTimeline;
+            lastScrollTimeTimeline = timestamp;
+            scrollVelocityTimeline *= 0.92 - Math.min(deltaTime / 1000, 0.1);
+            // 计算最大滚动范围
+            const timelineWidth = timeline.scrollWidth;
+            const containerWidth = timelineContainer.offsetWidth;
+            const maxScroll = Math.max(0, timelineWidth - containerWidth);
+            if (Math.abs(scrollVelocityTimeline) > 0.1) {
+                currentScrollTimeline += scrollVelocityTimeline;              
+                // 限制滚动范围 - 不能超过内容宽度
+                currentScrollTimeline = Math.max(Math.min(currentScrollTimeline, 0), -maxScroll);
+                timeline.style.transform = `translateX(${currentScrollTimeline}px)`;
+                requestAnimationFrame(smoothScrollTimeline);
+            } else {
+                isScrollingTimeline = false;
+            }
+        }
+        // 初始居中显示时间轴
+        window.addEventListener('load', () => {
+            const timelineWidth = timeline.scrollWidth;
+            const containerWidth = timelineContainer.offsetWidth;
+            if (timelineWidth > containerWidth) {
+                currentScrollTimeline = -(timelineWidth - containerWidth) / 2;
+                timeline.style.transform = `translateX(${currentScrollTimeline}px)`;
+            }
+        });
+
+        // 投稿页面
+        const adminModal = document.getElementById('admin-modal');
+        const closeAdminBtn = document.querySelector('.close-admin');
+        // 导航栏点击打开投稿页面
+        document.getElementById('open-admin-link').addEventListener('click', function(e) {
+            e.preventDefault();
+            adminModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+        // 关闭投稿页面
+        closeAdminBtn.addEventListener('click', () => {
+            adminModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        // 点击模态框外部关闭
+        adminModal.addEventListener('click', (e) => {
+            if (e.target === adminModal) {
+                adminModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+        // 文章发布功能
+        const publishBtn = document.querySelector('.btn-primary');
+        publishBtn.addEventListener('click', () => {
+            const title = document.getElementById('article-title').value;
+            const category = document.getElementById('article-category').value;
+            const tags = document.getElementById('article-tags').value;
+            const content = document.getElementById('article-content').value;           
+            if (!title || !content) {
+                alert('请填写标题和内容');
+                return;
+            }        
+            // 这里在实际应用中应该发送数据到服务器
+            alert(`文章"${title}"发布成功！`);
+            adminModal.style.display = 'none';
+            document.body.style.overflow = '';          
+            // 清空表单
+            document.getElementById('article-title').value = '';
+            document.getElementById('article-tags').value = '';
+            document.getElementById('article-content').value = '';
+            document.getElementById('article-excerpt').value = '';
+        });
+
+
+    </script>
+</body>
+</html>
